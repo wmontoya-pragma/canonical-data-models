@@ -1,0 +1,464 @@
+# ============================================================
+# oas-template-ai-friendly.yaml
+# ============================================================
+# TEMPLATE OAS 3.0 — AI-Friendly Optimizado
+#
+# Este template COMPLEMENTA a oas-template-base.yaml. Mientras el
+# base define la estructura minima publicable (info, servers,
+# security, responses estandar), este template incorpora todas las
+# practicas que maximizan la comprension por parte de agentes LLM
+# (Copilot, Claude, GPT, Kiro, etc.), reduciendo alucinaciones y
+# mejorando la generacion de codigo, tests y documentacion.
+#
+# Diferencias clave respecto al template base:
+# - Descripciones ricas en lenguaje natural en TODOS los niveles
+# - Ejemplos multiples (happy path + edge cases) en cada response
+# - operationId semantico obligatorio (verbo + sustantivo)
+# - x-canonical-metadata extendido con contexto de gobierno
+# - x-enum-descriptions para cada enum
+# - Errores tipados con RFC 7807 (problem+json)
+# - Tags con descripcion global
+# - Schemas con title + required explicito
+# - format semantico donde aplica (date-time, uri, uuid, email)
+#
+# Uso: copiar este archivo como base al crear un dominio nuevo que
+# requiera optimizacion para consumo AI. Reemplazar {{...}}.
+#
+# REGLA: el artefacto final publicado en oas/dist/*.bundled.yaml
+# debe ser autocontenido (sin $ref externos) para poder inyectarse
+# completo en un contexto LLM sin dependencias rotas.
+# ============================================================
+
+openapi: 3.0.3
+
+# ─────────────────────────────────────────────────────────────────
+# INFO — Contexto global del API para agentes AI
+# ─────────────────────────────────────────────────────────────────
+info:
+  title: "{{Nombre del dominio}} API"
+  description: |
+    {{Descripcion funcional del dominio en 2-3 oraciones.}}
+
+    ## Contexto de negocio
+    {{Explicar brevemente que problema de negocio resuelve este API,
+    que actores lo consumen y en que flujos participa.}}
+
+    ## Modelo canonico
+    Este API forma parte del repositorio de gobierno de datos canonico
+    del banco. Cada schema esta trazado a su Business Component (BC),
+    Message Component (MC) o Message Definition (MD) de origen mediante
+    el bloque `x-canonical-metadata`.
+
+    ## Convenciones
+    - Fechas: ISO 8601 (`yyyy-MM-dd'T'HH:mm:ss.SSSZ`)
+    - Montos: decimal con 2 posiciones (`1500000.00`)
+    - Monedas: ISO 4217 (`COP`, `USD`)
+    - Paises: ISO 3166-1 alpha-2 (`CO`, `US`)
+    - IDs: formato UUID v4 salvo indicacion contraria
+  version: "{{MAJOR.MINOR.PATCH}}"
+  contact:
+    name: "{{TEAM-XXX}}"
+    email: "{{equipo@banco.com}}"
+  license:
+    name: "Uso interno"
+    url: "https://banco.com/politica-apis-internas"
+
+# ─────────────────────────────────────────────────────────────────
+# SERVERS — Con descripcion de proposito
+# ─────────────────────────────────────────────────────────────────
+servers:
+  - url: "{{https://api.banco.com/dominio}}"
+    description: |
+      Ambiente de produccion. Requiere autenticacion OAuth2
+      con scope correspondiente al dominio.
+  - url: "{{https://sandbox.banco.com/dominio}}"
+    description: |
+      Ambiente sandbox para desarrollo y pruebas de integracion.
+      Datos sinteticos, sin impacto en cuentas reales.
+
+# ─────────────────────────────────────────────────────────────────
+# SECURITY — Explicita con descripcion
+# ─────────────────────────────────────────────────────────────────
+security:
+  - oauth2: []
+
+# ─────────────────────────────────────────────────────────────────
+# TAGS — Agrupacion semantica con descripcion rica
+# ─────────────────────────────────────────────────────────────────
+tags:
+  - name: "{{recurso-principal}}"
+    description: |
+      {{Descripcion completa del grupo de operaciones: que entidades
+      gestiona, que casos de uso cubre y que restricciones aplican.}}
+    # Ejemplo:
+    # - name: accounts
+    #   description: |
+    #     Operaciones sobre cuentas bancarias: consulta de identificacion,
+    #     saldos, movimientos y estado operativo. Soporta cuentas de
+    #     ahorro, corriente y nomina.
+
+# ─────────────────────────────────────────────────────────────────
+# PATHS — Plantilla de operacion AI-Friendly
+# ─────────────────────────────────────────────────────────────────
+paths:
+  # ──────────────────────────────────────────────────────────────
+  # EJEMPLO COMPLETO DE OPERACION AI-FRIENDLY
+  # Copiar este bloque para cada endpoint nuevo.
+  # ──────────────────────────────────────────────────────────────
+  /{{recurso}}/{id}:
+    get:
+      tags:
+        - "{{recurso-principal}}"
+      summary: "{{Accion en 1 linea: verbo + que + condicion}}"
+      description: |
+        {{Descripcion extendida de la operacion en 2-4 oraciones:
+        - Que hace exactamente
+        - Que precondiciones tiene
+        - Que efecto secundario produce (si aplica)
+        - Quien tipicamente la invoca}}
+      operationId: "{{verboCamelCaseRecurso}}"
+      # Regla: operationId = verbo + sustantivo en camelCase
+      # Buenos: getAccountById, createTransfer, listMovements
+      # Malos:  op1, consulta, hacerCosa
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: |
+            Identificador unico del recurso. Formato: {{formato esperado}}.
+            Ejemplo: "CO1234567890123456" (IBAN) o UUID v4.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 34
+            example: "{{valor-ejemplo-realista}}"
+
+        - name: X-Correlation-Id
+          in: header
+          required: false
+          description: |
+            ID de correlacion para trazabilidad end-to-end del request
+            a traves de multiples microservicios. Si no se envia, el
+            API genera uno automaticamente y lo retorna en el response.
+          schema:
+            type: string
+            format: uuid
+            example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+
+      responses:
+        '200':
+          description: "Consulta exitosa. Retorna el recurso completo."
+          headers:
+            X-Correlation-Id:
+              description: "ID de correlacion (eco del request o generado)"
+              schema:
+                type: string
+                format: uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/{{NombreSchemaResponse}}'
+              examples:
+                casoExitoso:
+                  summary: "{{Caso normal / happy path}}"
+                  description: |
+                    {{Contexto del ejemplo: que estado del recurso
+                    representa y por que es el caso tipico.}}
+                  value:
+                    # {{Incluir un JSON completo y realista aqui}}
+                    id: "CO1234567890123456"
+                    status: "ACTIVE"
+                casoEdge:
+                  summary: "{{Caso borde relevante}}"
+                  description: |
+                    {{Explicar que situacion atipica pero valida
+                    representa este ejemplo.}}
+                  value:
+                    id: "CO9876543210987654"
+                    status: "BLOCKED"
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+# ─────────────────────────────────────────────────────────────────
+# COMPONENTS
+# ─────────────────────────────────────────────────────────────────
+components:
+
+  # ─────────────────────────────────────────────────────────────
+  # SECURITY SCHEMES
+  # ─────────────────────────────────────────────────────────────
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: |
+        Autenticacion OAuth2 client_credentials. El token se obtiene
+        del authorization server corporativo con el scope del dominio.
+      flows:
+        clientCredentials:
+          tokenUrl: "{{https://auth.banco.com/token}}"
+          scopes:
+            "{{dominio}}:read": "Lectura de recursos del dominio"
+            "{{dominio}}:write": "Escritura/modificacion de recursos"
+
+  # ─────────────────────────────────────────────────────────────
+  # SCHEMAS — Plantilla AI-Friendly
+  # ─────────────────────────────────────────────────────────────
+  schemas:
+
+    # ─── Schema de negocio (plantilla) ───────────────────────────
+    "{{NombreSchemaResponse}}":
+      title: "{{Titulo legible del schema para generacion de tipos}}"
+      description: |
+        {{Descripcion del schema: que entidad de negocio representa,
+        en que contexto se usa y que invariantes tiene.}}
+      type: object
+      required:
+        - id
+        - status
+      x-canonical-metadata:
+        component_id: "{{BC-DOMINIO-nombre-vN}}"
+        source: "custom"          # custom | iso20022 | bian
+        domain: "{{DOM-XXX}}"
+        owner_team: "{{TEAM-XXX}}"
+        branch_id: null           # ID de rama si es Fork (seccion 2 de Arquitectura V2)
+        standard_alignment: null  # Reference | Mapping | Gap-fit (si aplica)
+      properties:
+        id:
+          type: string
+          description: |
+            Identificador unico del recurso. Inmutable una vez creado.
+          example: "CO1234567890123456"
+          minLength: 1
+          maxLength: 34
+        status:
+          type: string
+          description: |
+            Estado operativo actual del recurso dentro de su ciclo de vida.
+          enum:
+            - ACTIVE
+            - INACTIVE
+            - BLOCKED
+            - CLOSED
+          x-enum-descriptions:
+            ACTIVE: "Recurso activo y operativo, permite todas las operaciones"
+            INACTIVE: "Recurso inactivo temporalmente, no permite operaciones transaccionales"
+            BLOCKED: "Recurso bloqueado por orden judicial o politica interna"
+            CLOSED: "Recurso cerrado definitivamente, solo consulta historica"
+          example: "ACTIVE"
+        createdAt:
+          type: string
+          format: date-time
+          description: |
+            Fecha y hora de creacion del recurso en formato ISO 8601
+            con zona horaria UTC.
+          example: "2025-03-15T14:30:00.000Z"
+        currency:
+          type: string
+          description: |
+            Codigo de moneda en formato ISO 4217 (3 letras mayusculas).
+          minLength: 3
+          maxLength: 3
+          example: "COP"
+          # Si se referencia un codeset canonico:
+          # $ref: '#/components/schemas/CodigoMonedaISO4217'
+        amount:
+          type: number
+          format: double
+          description: |
+            Monto expresado en la moneda indicada por `currency`.
+            Siempre con 2 decimales. Positivo para creditos, negativo
+            para debitos.
+          example: 1500000.00
+          minimum: -999999999999.99
+          maximum: 999999999999.99
+
+    # ─── Schema de error RFC 7807 ────────────────────────────────
+    ProblemDetail:
+      title: "Error estandar RFC 7807 (Problem Details)"
+      description: |
+        Estructura de error estandarizada segun RFC 7807. Todos los
+        endpoints del API retornan este formato en respuestas 4xx y 5xx.
+        Los agentes AI deben usar `type` para clasificar el error
+        programaticamente y `detail` para contexto humano.
+      type: object
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: |
+            URI que identifica univocamente el tipo de error.
+            Sirve como clave estable para manejo programatico de errores.
+          example: "https://api.banco.com/errors/resource-not-found"
+        title:
+          type: string
+          description: |
+            Descripcion corta legible por humanos del tipo de error.
+            No cambia entre instancias del mismo tipo.
+          example: "Recurso no encontrado"
+        status:
+          type: integer
+          description: |
+            Codigo HTTP del error (replica del status code del response
+            para conveniencia del consumidor).
+          example: 404
+          minimum: 400
+          maximum: 599
+        detail:
+          type: string
+          description: |
+            Explicacion especifica de esta instancia del error.
+            Puede contener datos del request para facilitar debugging.
+          example: "No existe un recurso con el ID proporcionado"
+        instance:
+          type: string
+          format: uri
+          description: |
+            URI que identifica la instancia especifica del error.
+            Util para correlacion con logs internos.
+          example: "/accounts/CO0000000000000000"
+        traceId:
+          type: string
+          description: |
+            ID de trazabilidad distribuida para que soporte tecnico
+            pueda rastrear el request completo en los logs.
+          example: "abc123-def456-ghi789"
+        timestamp:
+          type: string
+          format: date-time
+          description: |
+            Momento exacto en que ocurrio el error (UTC).
+          example: "2025-06-20T10:15:30.000Z"
+        errors:
+          type: array
+          description: |
+            Lista de errores de validacion individuales (solo en 400).
+            Cada entrada indica que campo fallo y por que.
+          items:
+            type: object
+            required:
+              - field
+              - message
+            properties:
+              field:
+                type: string
+                description: "Ruta JSON del campo con error (dot notation)"
+                example: "account.currency"
+              message:
+                type: string
+                description: "Descripcion del error de validacion"
+                example: "El codigo de moneda debe ser un valor ISO 4217 valido"
+              rejectedValue:
+                type: string
+                description: "Valor rechazado (para contexto de debugging)"
+                example: "COPS"
+
+  # ─────────────────────────────────────────────────────────────
+  # RESPONSES — Tipadas con ProblemDetail y ejemplos
+  # ─────────────────────────────────────────────────────────────
+  responses:
+    BadRequest:
+      description: |
+        Solicitud invalida. El request no cumple con las validaciones
+        de formato, tipo de dato o reglas de negocio. Revisar el array
+        `errors` para detalle campo por campo.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.banco.com/errors/validation-error"
+            title: "Error de validacion"
+            status: 400
+            detail: "El request contiene 2 errores de validacion"
+            traceId: "trace-001-abc"
+            timestamp: "2025-06-20T10:15:30.000Z"
+            errors:
+              - field: "amount"
+                message: "El monto debe ser mayor a cero"
+                rejectedValue: "-100"
+              - field: "currency"
+                message: "Codigo de moneda no reconocido"
+                rejectedValue: "COPS"
+
+    Unauthorized:
+      description: |
+        No autenticado. El token OAuth2 no fue enviado, esta expirado
+        o es invalido. El consumidor debe obtener un nuevo token del
+        authorization server.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.banco.com/errors/unauthorized"
+            title: "No autenticado"
+            status: 401
+            detail: "Token expirado. Solicite un nuevo token en el endpoint de autorizacion."
+            traceId: "trace-002-def"
+            timestamp: "2025-06-20T10:16:00.000Z"
+
+    Forbidden:
+      description: |
+        No autorizado. El token es valido pero no tiene el scope
+        requerido para esta operacion. Contactar al administrador
+        para solicitar el scope necesario.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.banco.com/errors/forbidden"
+            title: "Acceso denegado"
+            status: 403
+            detail: "El scope 'mediospago:write' es requerido para esta operacion."
+            traceId: "trace-003-ghi"
+            timestamp: "2025-06-20T10:17:00.000Z"
+
+    NotFound:
+      description: |
+        Recurso no encontrado. El ID proporcionado no corresponde a
+        ningun recurso existente en el sistema, o el recurso fue
+        eliminado permanentemente.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.banco.com/errors/resource-not-found"
+            title: "Recurso no encontrado"
+            status: 404
+            detail: "No existe una cuenta con el ID CO0000000000000000"
+            instance: "/accounts/CO0000000000000000"
+            traceId: "trace-004-jkl"
+            timestamp: "2025-06-20T10:18:00.000Z"
+
+    InternalServerError:
+      description: |
+        Error interno del servidor. Un error inesperado impidio
+        procesar el request. Reintentar con backoff exponencial.
+        Si persiste, reportar con el traceId al equipo de soporte.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          example:
+            type: "https://api.banco.com/errors/internal-error"
+            title: "Error interno"
+            status: 500
+            detail: "Error inesperado procesando la solicitud. Por favor reintente."
+            traceId: "trace-005-mno"
+            timestamp: "2025-06-20T10:19:00.000Z"
