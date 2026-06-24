@@ -1,0 +1,10 @@
+# Dominio Medios de Pago — Equipo Productor: TEAM-HERMES
+/dominios/DOM-MEDIOSPAGO/  @hermes
+/dominios/DOM-CREDITO-CONSUMO/  @ragnar
+
+# Compartidos — gobierno transversal de arquitectura
+/_datatypes/      @equipo-arquitectura
+/_codesets/       @equipo-arquitectura
+/_templates/      @equipo-arquitectura
+/_catalog/        @equipo-arquitectura
+/_teams/          @equipo-arquitectura
