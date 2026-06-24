@@ -1,0 +1,78 @@
+# ============================================================
+# oas-template-base.yaml — V2
+# ============================================================
+# TEMPLATE BASE OAS 3.0 — Repositorio Canónico — V2
+#
+# Este archivo es el ESQUELETO que el pipeline de build usa como
+# base estructural (info, servers, security, responses estándar)
+# al generar el OAS de un dominio nuevo. El contenido de "paths" y
+# "schemas" específico de cada operación NO se escribe a mano aquí
+# — se ENSAMBLA desde:
+#   - Los yaml individuales de cada BC/MC/DT/CS (individual_oas_file)
+#   - Los fragmentos ensamblados de cada MD (assembled_fragment_file)
+#
+# El resultado final autocontenido (sin $ref externos, requerido por
+# IBM APIConnect) se publica en dominios/{DOM-XXX}/oas/dist/*.bundled.yaml
+# usando una herramienta de bundling (ej. redocly bundle o
+# swagger-cli bundle --dereference).
+#
+# Uso: copiar este archivo UNA VEZ al crear un dominio nuevo, para
+# fijar info/servers/security/responses estándar. NO editar paths
+# ni schemas aquí directamente — eso se regenera por el build.
+#
+# Reemplazar todos los valores {{...}} antes de publicar.
+#
+# Convención de oro: cada schema definido en el OAS final debe
+# tener el bloque "x-canonical-metadata" que lo traza a su BC, MC
+# o MD de origen en el repositorio (incluye "source" y, si aplica,
+# "branch_id").
+
+openapi: 3.0.3
+
+info:
+  title: "{{Nombre del dominio}} API"
+  description: "{{Descripción funcional del dominio}}"
+  version: "{{MAJOR.MINOR.PATCH}}"
+  contact:
+    name: "{{TEAM-XXX}}"
+
+servers:
+  - url: "{{https://api.banco.com/dominio}}"
+    description: "{{Producción / Sandbox}}"
+
+security:
+  - oauth2: []
+
+paths: {}
+  # Generado por el pipeline de build a partir de los MD del dominio.
+  # No editar manualmente.
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: "{{https://auth.banco.com/token}}"
+          scopes: {}
+
+  schemas: {}
+    # Generado por el pipeline de build a partir de los BC/MC/DT/CS
+    # individuales del dominio. Cada schema debe incluir:
+    #
+    # x-canonical-metadata:
+    #   component_id: "BC-{{dominio}}-{{nombre}}-v{{MAJOR}}"
+    #   source: "custom"          # custom | iso20022 | bian
+    #   branch_id: null            # id de rama si es Fork
+
+  responses:
+    BadRequest:
+      description: "Solicitud invalida"
+    Unauthorized:
+      description: "No autenticado"
+    Forbidden:
+      description: "No autorizado"
+    NotFound:
+      description: "Recurso no encontrado"
+    InternalServerError:
+      description: "Error interno del servidor"

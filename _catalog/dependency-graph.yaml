@@ -1,0 +1,49 @@
+# ============================================================
+# dependency-graph.yaml — V2
+# ============================================================
+# Grafo de dependencias machine-readable, regenerado por CI.
+# Cuatro grafos complementarios:
+#   1. consumption_graph        -> impacto BC -> MC -> MD
+#   2. branch_lineage_graph     -> relaciones Fork/trunk
+#   3. standard_alignment_graph -> relaciones custom <-> ISO/BIAN
+#   4. governance_graph         -> que gobierna cada Equipo Productor
+
+generated_at: "{{YYYY-MM-DDTHH:MM:SSZ}}"
+repository_version: "v2"
+
+# 1. Grafo de consumo (para analisis de impacto)
+consumption_graph: []
+  # - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+  #   consumed_by:
+  #     - component_id: "MC-MEDIOSPAGO-transferencia-v1"
+  #       branch_consumed: "v1"
+
+# 2. Grafo de linaje de ramas (Fork/trunk)
+branch_lineage_graph: []
+  # - component_id: "CS-MEDIOSPAGO-tipo-cuenta-v2"
+  #   branch_type: "fork"
+  #   forked_from: "CS-MEDIOSPAGO-tipo-cuenta-v1"
+  #   sibling_branches: []
+
+# 3. Grafo de alineacion a estandar (custom <-> ISO/BIAN)
+standard_alignment_graph: []
+  # - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+  #   standard_reference_id: "STD-iso20022-account-identification"
+  #   strategy: "mapping"
+  #   mapping_doc_id: "MAP-MEDIOSPAGO-cuenta-origen"
+
+# 4. Grafo de gobierno por equipo productor
+governance_graph: []
+  # - owner_team_id: "TEAM-HERMES"
+  #   governs_domains:
+  #     - "DOM-MEDIOSPAGO"
+  #   governs_components_override: []
+  #     # componentes de OTROS dominios cuyo owner_team_id_override
+  #     # apunta a este equipo (ej. un Fork con dueno distinto)
+
+# Indice resuelto de ownership (para responder "que gobierna este equipo"
+# sin recorrer carpetas)
+resolved_ownership_index: []
+  # - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+  #   owner_team_id_resolved: "TEAM-HERMES"
+  #   resolution: "inherited_from_domain"   # inherited_from_domain | override

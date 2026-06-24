@@ -1,0 +1,31 @@
+# ============================================================
+# catalog.yaml — V2
+# ============================================================
+# Catalogo machine-readable de TODOS los artefactos del repositorio.
+# Este archivo se REGENERA automaticamente por el pipeline de CI
+# (no se edita a mano en condiciones normales). Sirve como indice
+# para el MCP server (navegacion por id) y para la capa RAG
+# (busqueda semantica via ai_keywords/aliases).
+#
+# Cada entrada corresponde a un BC, MC, MD o CS publicado.
+
+generated_at: "{{YYYY-MM-DDTHH:MM:SSZ}}"
+repository_version: "v2"
+
+components: []
+  # Ejemplo de entrada (una por cada BC/MC/MD/CS real del repo):
+  #
+  # - id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+  #   type: "business-component"
+  #   domain_id: "DOM-MEDIOSPAGO"
+  #   status: "active"
+  #   version: "1.0.0"
+  #   source: "custom"
+  #   standard_alignment_strategy: "n/a"
+  #   major_branch_strategy: "n/a"
+  #   branch_lineage: []
+  #   owner_team_id_resolved: "TEAM-HERMES"
+  #   file_md: "dominios/DOM-MEDIOSPAGO/business-components/BC-cuenta-origen-v1.md"
+  #   file_yaml: "dominios/DOM-MEDIOSPAGO/business-components/BC-cuenta-origen-v1.yaml"
+  #   ai_keywords: []
+  #   aliases: []
