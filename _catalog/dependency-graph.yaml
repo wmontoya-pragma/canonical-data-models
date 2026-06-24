@@ -1,49 +1,121 @@
 # ============================================================
 # dependency-graph.yaml — V2
 # ============================================================
-# Grafo de dependencias machine-readable, regenerado por CI.
-# Cuatro grafos complementarios:
-#   1. consumption_graph        -> impacto BC -> MC -> MD
-#   2. branch_lineage_graph     -> relaciones Fork/trunk
-#   3. standard_alignment_graph -> relaciones custom <-> ISO/BIAN
-#   4. governance_graph         -> que gobierna cada Equipo Productor
+# Se actualiza manualmente en esta fase de PoC (sin CI todavia).
 
-generated_at: "{{YYYY-MM-DDTHH:MM:SSZ}}"
+generated_at: "2026-06-24T00:00:00Z"
 repository_version: "v2"
 
 # 1. Grafo de consumo (para analisis de impacto)
-consumption_graph: []
-  # - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
-  #   consumed_by:
-  #     - component_id: "MC-MEDIOSPAGO-transferencia-v1"
-  #       branch_consumed: "v1"
+consumption_graph:
+  - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+    consumed_by: []
 
-# 2. Grafo de linaje de ramas (Fork/trunk)
-branch_lineage_graph: []
-  # - component_id: "CS-MEDIOSPAGO-tipo-cuenta-v2"
-  #   branch_type: "fork"
-  #   forked_from: "CS-MEDIOSPAGO-tipo-cuenta-v1"
-  #   sibling_branches: []
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+    consumed_by:
+      - component_id: "MC-MEDIOSPAGO-identificacion-cuenta-v1"
+        branch_consumed: "v1"
+
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+    consumed_by: []
+
+  - component_id: "DT-texto-max35-v1"
+    consumed_by:
+      - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+        branch_consumed: "v1"
+      - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+        branch_consumed: "v1"
+
+  - component_id: "DT-importe-decimal-v1"
+    consumed_by:
+      - component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+        branch_consumed: "v1"
+
+  - component_id: "DT-fecha-hora-v1"
+    consumed_by:
+      - component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+        branch_consumed: "v1"
+
+  - component_id: "CS-codigo-moneda-v1"
+    consumed_by:
+      - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+        branch_consumed: "v1"
+      - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+        branch_consumed: "v1"
+      - component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+        branch_consumed: "v1"
+        nota: "Referencia directa MC->CodeSet, sin pasar por BC (regla de prioridad)."
+
+  - component_id: "CS-codigo-pais-v1"
+    consumed_by: []
+
+  - component_id: "MC-MEDIOSPAGO-identificacion-cuenta-v1"
+    consumed_by:
+      - component_id: "MD-MEDIOSPAGO-consultar-cuenta-v1"
+        branch_consumed: "v1"
+
+  - component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+    consumed_by:
+      - component_id: "MD-MEDIOSPAGO-consultar-cuenta-v1"
+        branch_consumed: "v1"
+
+# 2. Grafo de linaje de ramas (Fork/trunk/evolution)
+branch_lineage_graph:
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+    branch_type: "evolution"
+    evolved_from: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+    sibling_branches: []
+    motivo: "Agrega accountNickname para Open Banking; status se retira de la version expuesta."
 
 # 3. Grafo de alineacion a estandar (custom <-> ISO/BIAN)
-standard_alignment_graph: []
-  # - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
-  #   standard_reference_id: "STD-iso20022-account-identification"
-  #   strategy: "mapping"
-  #   mapping_doc_id: "MAP-MEDIOSPAGO-cuenta-origen"
+standard_alignment_graph:
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+    standard_reference_id: "STD-bian-current-accounts"
+    strategy: "gap-fit"
+
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+    standard_reference_id: "STD-bian-current-accounts"
+    strategy: "gap-fit"
+    gap_fit_notes: "accountNickname es extension del banco, sin equivalente en BIAN/ISO."
+
+  - component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+    standard_reference_id: "STD-iso20022-accountbalance"
+    strategy: "mapping"
+    mapping_notes: "El estandar empareja amount+currency por saldo; el banco separa currency a nivel de mensaje (un solo campo para ambos saldos)."
+
+  - component_id: "DT-importe-decimal-v1"
+    standard_reference_id: "STD-iso20022-accountbalance"
+    strategy: "gap-fit"
+    gap_fit_notes: "DecimalNumber sin moneda embebida, a diferencia de ActiveCurrencyAndAmount del estandar."
 
 # 4. Grafo de gobierno por equipo productor
-governance_graph: []
-  # - owner_team_id: "TEAM-HERMES"
-  #   governs_domains:
-  #     - "DOM-MEDIOSPAGO"
-  #   governs_components_override: []
-  #     # componentes de OTROS dominios cuyo owner_team_id_override
-  #     # apunta a este equipo (ej. un Fork con dueno distinto)
+governance_graph:
+  - owner_team_id: "TEAM-HERMES"
+    governs_domains:
+      - "DOM-MEDIOSPAGO"
+    governs_components_override: []
+  - owner_team_id: "TEAM-RAGNAR"
+    governs_domains:
+      - "DOM-CREDITO-CONSUMO"
+    governs_components_override: []
 
-# Indice resuelto de ownership (para responder "que gobierna este equipo"
-# sin recorrer carpetas)
-resolved_ownership_index: []
-  # - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
-  #   owner_team_id_resolved: "TEAM-HERMES"
-  #   resolution: "inherited_from_domain"   # inherited_from_domain | override
+# Indice resuelto de ownership
+resolved_ownership_index:
+  - component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+    owner_team_id_resolved: "TEAM-HERMES"
+    resolution: "inherited_from_domain"
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+    owner_team_id_resolved: "TEAM-HERMES"
+    resolution: "inherited_from_domain"
+  - component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+    owner_team_id_resolved: "TEAM-HERMES"
+    resolution: "inherited_from_domain"
+  - component_id: "MC-MEDIOSPAGO-identificacion-cuenta-v1"
+    owner_team_id_resolved: "TEAM-HERMES"
+    resolution: "inherited_from_domain"
+  - component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+    owner_team_id_resolved: "TEAM-HERMES"
+    resolution: "inherited_from_domain"
+  - component_id: "MD-MEDIOSPAGO-consultar-cuenta-v1"
+    owner_team_id_resolved: "TEAM-HERMES"
+    resolution: "inherited_from_domain"

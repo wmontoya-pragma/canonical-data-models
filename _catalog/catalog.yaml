@@ -2,30 +2,189 @@
 # catalog.yaml — V2
 # ============================================================
 # Catalogo machine-readable de TODOS los artefactos del repositorio.
-# Este archivo se REGENERA automaticamente por el pipeline de CI
-# (no se edita a mano en condiciones normales). Sirve como indice
-# para el MCP server (navegacion por id) y para la capa RAG
-# (busqueda semantica via ai_keywords/aliases).
-#
-# Cada entrada corresponde a un BC, MC, MD o CS publicado.
+# Se actualiza manualmente en esta fase de PoC (sin CI todavia).
 
-generated_at: "{{YYYY-MM-DDTHH:MM:SSZ}}"
+generated_at: "2026-06-24T00:00:00Z"
 repository_version: "v2"
 
-components: []
-  # Ejemplo de entrada (una por cada BC/MC/MD/CS real del repo):
-  #
-  # - id: "BC-MEDIOSPAGO-cuenta-origen-v1"
-  #   type: "business-component"
-  #   domain_id: "DOM-MEDIOSPAGO"
-  #   status: "active"
-  #   version: "1.0.0"
-  #   source: "custom"
-  #   standard_alignment_strategy: "n/a"
-  #   major_branch_strategy: "n/a"
-  #   branch_lineage: []
-  #   owner_team_id_resolved: "TEAM-HERMES"
-  #   file_md: "dominios/DOM-MEDIOSPAGO/business-components/BC-cuenta-origen-v1.md"
-  #   file_yaml: "dominios/DOM-MEDIOSPAGO/business-components/BC-cuenta-origen-v1.yaml"
-  #   ai_keywords: []
-  #   aliases: []
+components:
+  # --- StandardReference ---
+  - id: "STD-bian-current-accounts"
+    type: "standard-reference"
+    domain_id: "_canonical-standards/bian"
+    status: "active"
+    standard: "bian"
+    file_md: "_canonical-standards/bian/STD-bian-current-accounts.md"
+    ai_keywords: ["cuenta", "account", "bian", "iso20022", "financialaccount24"]
+    aliases: ["AccountIdentification (BIAN/ISO)"]
+
+  - id: "STD-iso20022-accountbalance"
+    type: "standard-reference"
+    domain_id: "_canonical-standards/iso20022"
+    status: "active"
+    standard: "iso20022"
+    file_md: "_canonical-standards/iso20022/STD-iso20022-accountbalance.md"
+    ai_keywords: ["saldo", "balance", "accountbalance", "iso20022", "bian"]
+    aliases: ["AccountBalanceA01"]
+
+  # --- CodeSet ---
+  - id: "CS-codigo-moneda-v1"
+    type: "code-set"
+    domain_id: "_codesets"
+    status: "active"
+    version: "1.0.0"
+    source: "iso20022"
+    standard_alignment_strategy: "reference"
+    standard_reference: "STD-iso20022-currency-code"
+    file_md: "_codesets/CS-codigo-moneda-v1.md"
+    file_yaml: "_codesets/CS-codigo-moneda-v1.yml"
+    ai_keywords: ["moneda", "currency", "divisa", "iso4217"]
+    aliases: ["CurrencyCode", "Codigo de Divisa"]
+
+  - id: "CS-codigo-pais-v1"
+    type: "code-set"
+    domain_id: "_codesets"
+    status: "active"
+    version: "1.0.0"
+    source: "iso20022"
+    standard_alignment_strategy: "reference"
+    standard_reference: null
+    file_md: "_codesets/CS-codigo-pais-v1.md"
+    file_yaml: "_codesets/CS-codigo-pais-v1.yml"
+    ai_keywords: ["pais", "country", "residencia fiscal", "iso3166"]
+    aliases: ["CountryCode"]
+
+  # --- DataType ---
+  - id: "DT-texto-max35-v1"
+    type: "datatype"
+    domain_id: "_datatypes"
+    status: "active"
+    version: "1.0.0"
+    source: "iso20022"
+    standard_alignment_strategy: "reference"
+    standard_reference: null
+    file_md: "_datatypes/DT-texto-max35-v1.md"
+    file_yaml: "_datatypes/DT-texto-max35-v1.yml"
+    ai_keywords: ["texto", "max35text", "identificacion", "iban"]
+    aliases: ["Max35Text"]
+
+  - id: "DT-importe-decimal-v1"
+    type: "datatype"
+    domain_id: "_datatypes"
+    status: "active"
+    version: "1.0.0"
+    source: "iso20022"
+    standard_alignment_strategy: "gap-fit"
+    standard_reference: "STD-iso20022-accountbalance"
+    file_md: "_datatypes/DT-importe-decimal-v1.md"
+    file_yaml: "_datatypes/DT-importe-decimal-v1.yml"
+    ai_keywords: ["monto", "decimal", "saldo", "importe"]
+    aliases: ["DecimalNumber", "Amount"]
+
+  - id: "DT-fecha-hora-v1"
+    type: "datatype"
+    domain_id: "_datatypes"
+    status: "active"
+    version: "1.0.0"
+    source: "iso20022"
+    standard_alignment_strategy: "reference"
+    standard_reference: null
+    file_md: "_datatypes/DT-fecha-hora-v1.md"
+    file_yaml: "_datatypes/DT-fecha-hora-v1.yml"
+    ai_keywords: ["fecha", "hora", "timestamp", "isodatetime"]
+    aliases: ["ISODateTime"]
+
+  # --- Business Component ---
+  - id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+    type: "business-component"
+    domain_id: "DOM-MEDIOSPAGO"
+    status: "draft"
+    version: "1.0.0"
+    source: "custom"
+    standard_alignment_strategy: "n/a"
+    major_branch_strategy: "n/a"
+    branch_lineage: []
+    owner_team_id_resolved: "TEAM-HERMES"
+    file_md: "dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-origen-v1.md"
+    file_yaml: "dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-origen-v1.yml"
+    ai_keywords: ["cuenta", "origen", "debito", "medios de pago", "transferencia"]
+    aliases: ["Cuenta Debitada", "Cuenta Origen de Fondos"]
+
+  - id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+    type: "business-component"
+    domain_id: "DOM-MEDIOSPAGO"
+    status: "active"
+    version: "1.0.0"
+    source: "bian"
+    standard_alignment_strategy: "gap-fit"
+    standard_reference: "STD-bian-current-accounts"
+    major_branch_strategy: "evolution"
+    branch_lineage: []
+    owner_team_id_resolved: "TEAM-HERMES"
+    file_md: "dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md"
+    file_yaml: "dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.yml"
+    ai_keywords: ["cuenta", "identificacion", "account", "bian", "iso20022"]
+    aliases: ["AccountIdentification"]
+
+  - id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+    type: "business-component"
+    domain_id: "DOM-MEDIOSPAGO"
+    status: "active"
+    version: "2.0.0"
+    source: "bian"
+    standard_alignment_strategy: "gap-fit"
+    standard_reference: "STD-bian-current-accounts"
+    major_branch_strategy: "evolution"
+    branch_lineage: ["BC-MEDIOSPAGO-cuenta-identificacion-v1"]
+    owner_team_id_resolved: "TEAM-HERMES"
+    file_md: "dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v2.md"
+    file_yaml: "dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v2.yml"
+    ai_keywords: ["cuenta", "identificacion", "account", "open banking", "alias"]
+    aliases: ["AccountIdentification v2"]
+
+  # --- Message Component ---
+  - id: "MC-MEDIOSPAGO-identificacion-cuenta-v1"
+    type: "message-component"
+    domain_id: "DOM-MEDIOSPAGO"
+    status: "active"
+    version: "1.0.0"
+    source: "custom"
+    standard_alignment_strategy: "n/a"
+    composed_from: ["BC-MEDIOSPAGO-cuenta-identificacion-v1"]
+    owner_team_id_resolved: "TEAM-HERMES"
+    file_md: "dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.md"
+    file_yaml: "dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.yml"
+    ai_keywords: ["cuenta", "identificacion", "mensaje", "consulta"]
+    aliases: []
+
+  - id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+    type: "message-component"
+    domain_id: "DOM-MEDIOSPAGO"
+    status: "active"
+    version: "1.0.0"
+    source: "iso20022"
+    standard_alignment_strategy: "mapping"
+    standard_reference: "STD-iso20022-accountbalance"
+    composed_from: ["DT-importe-decimal-v1", "DT-fecha-hora-v1", "CS-codigo-moneda-v1"]
+    owner_team_id_resolved: "TEAM-HERMES"
+    file_md: "dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md"
+    file_yaml: "dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.yml"
+    ai_keywords: ["saldo", "balance", "cuenta", "disponible", "contable"]
+    aliases: ["BalanceTypes"]
+    notes: "No referencia ningun BC (regla V2 relajada). CS-codigo-moneda-v1 referenciado directamente con prioridad sobre pasar por un BC."
+
+  # --- Message Definition ---
+  - id: "MD-MEDIOSPAGO-consultar-cuenta-v1"
+    type: "message-definition"
+    domain_id: "DOM-MEDIOSPAGO"
+    status: "active"
+    version: "1.0.0"
+    composed_from: ["MC-MEDIOSPAGO-identificacion-cuenta-v1", "MC-MEDIOSPAGO-saldos-cuenta-v1"]
+    published_in_oas:
+      - domain_id: "DOM-MEDIOSPAGO"
+        branch: "v1"
+        operation: "GET /accounts/{id}"
+    owner_team_id_resolved: "TEAM-HERMES"
+    file_md: "dominios/DOM-MEDIOSPAGO/message-definitions/MD-MEDIOSPAGO-consultar-cuenta-v1.md"
+    ai_keywords: ["consultar", "cuenta", "saldo", "identificacion", "get"]
+    aliases: []
