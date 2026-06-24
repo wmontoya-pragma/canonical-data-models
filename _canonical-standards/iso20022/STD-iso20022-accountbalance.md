@@ -37,14 +37,14 @@ de un producto de deposito. Cada saldo (`closingLedgerBalance`,
 
 | Componente | Estrategia declarada |
 |---|---|
-| MC-MEDIOSPAGO-saldos-cuenta-v1 | mapping |
-| DT-importe-decimal-v1 | gap-fit |
+| [MC-MEDIOSPAGO-saldos-cuenta-v1](../../dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md) | mapping |
+| [DT-importe-decimal-v1](../../_datatypes/DT-importe-decimal-v1.md) | gap-fit |
 
 ## Notas de vendorizacion
 
 - **Diferencia conocida**: el banco separa `amount` y `currency` en dos
-  campos independientes a nivel de DataType (`DT-importe-decimal-v1` sin
-  moneda) en lugar de usar `ActiveCurrencyAndAmount` emparejado, para
+  campos independientes a nivel de DataType ([DT-importe-decimal-v1](../../_datatypes/DT-importe-decimal-v1.md)
+  sin moneda) en lugar de usar `ActiveCurrencyAndAmount` emparejado, para
   permitir que el MC declare la moneda una sola vez para ambos saldos
   (en vez de repetirla en cada saldo como hace el estandar).
 

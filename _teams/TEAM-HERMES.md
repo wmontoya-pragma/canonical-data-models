@@ -6,7 +6,7 @@ language: "es"
 status: "Active"
 date: "2026-06-23T00:00:00-05:00"
 contact_email: "wmontoya@pragma.com.co"
-last_review_date: "2026-06-23"
+last_review_date: "2026-06-24"
 ---
 
 ## Document status
@@ -57,7 +57,22 @@ mensajeria de pagos.
 
 | domain_id | Desde | Documento de dominio |
 |---|---|---|
-| DOM-MEDIOSPAGO | 2026-06-23 | dominios/DOM-MEDIOSPAGO/ |
+| DOM-MEDIOSPAGO | 2026-06-23 | [dominios/DOM-MEDIOSPAGO/](../dominios/DOM-MEDIOSPAGO/) |
+
+## Componentes gobernados (vista rapida)
+
+> Lista de navegacion directa a los artefactos reales bajo este equipo.
+> La fuente de verdad de ownership sigue siendo `owner_team_id`/`owner_team_id_override`
+> en cada componente y `_catalog/dependency-graph.yaml`.
+
+| Componente | Tipo |
+|---|---|
+| [BC-MEDIOSPAGO-cuenta-origen-v1](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-origen-v1.md) | Business Component |
+| [BC-MEDIOSPAGO-cuenta-identificacion-v1](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md) | Business Component |
+| [BC-MEDIOSPAGO-cuenta-identificacion-v2](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v2.md) | Business Component |
+| [MC-MEDIOSPAGO-identificacion-cuenta-v1](../dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.md) | Message Component |
+| [MC-MEDIOSPAGO-saldos-cuenta-v1](../dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md) | Message Component |
+| [MD-MEDIOSPAGO-consultar-cuenta-v1](../dominios/DOM-MEDIOSPAGO/message-definitions/MD-MEDIOSPAGO-consultar-cuenta-v1.md) | Message Definition |
 
 ## Componentes con ownership especifico (overrides)
 

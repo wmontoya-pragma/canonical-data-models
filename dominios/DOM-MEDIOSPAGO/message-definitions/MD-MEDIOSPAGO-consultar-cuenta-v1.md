@@ -42,15 +42,15 @@ la cuenta con sus saldos actuales en un solo mensaje de respuesta.
 
 | Message Component | Rama consumida | Rol en el mensaje |
 |---|---|---|
-| MC-MEDIOSPAGO-identificacion-cuenta-v1 | v1 | Cuerpo principal: identificacion de la cuenta |
-| MC-MEDIOSPAGO-saldos-cuenta-v1 | v1 | Sub-objeto `balances`: saldos de la cuenta |
+| [MC-MEDIOSPAGO-identificacion-cuenta-v1](../message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.md) | v1 | Cuerpo principal: identificacion de la cuenta |
+| [MC-MEDIOSPAGO-saldos-cuenta-v1](../message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md) | v1 | Sub-objeto `balances`: saldos de la cuenta |
 
 ## Envelope structure
 
 | Campo | Tipo | Obligatorio | Descripcion |
 |---|---|---|---|
-| `account` | MC-identificacion-cuenta-v1 | Si | Identificacion de la cuenta |
-| `balances` | MC-saldos-cuenta-v1 | Si | Saldos de la cuenta |
+| `account` | [MC-MEDIOSPAGO-identificacion-cuenta-v1](../message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.md) | Si | Identificacion de la cuenta |
+| `balances` | [MC-MEDIOSPAGO-saldos-cuenta-v1](../message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md) | Si | Saldos de la cuenta |
 
 ## Used in OAS operations
 

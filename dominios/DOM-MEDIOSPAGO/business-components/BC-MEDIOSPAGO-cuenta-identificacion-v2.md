@@ -29,23 +29,25 @@ updated_date: "2026-06-24"
 
 ## Descripcion funcional
 
-Evolucion de v1: agrega `accountNickname`, un alias personalizado que el
-cliente asigna a su cuenta desde canales digitales (Open Banking / App
-movil). Extension del banco sobre el estandar BIAN/ISO base.
+Evolucion de [v1](./BC-MEDIOSPAGO-cuenta-identificacion-v1.md): agrega
+`accountNickname`, un alias personalizado que el cliente asigna a su
+cuenta desde canales digitales (Open Banking / App movil). Extension del
+banco sobre el estandar BIAN/ISO base.
 
 ## Atributos
 
 | Atributo | Tipo | Obligatorio | Descripcion |
 |---|---|---|---|
-| `identification` | DT-texto-max35-v1 | Si | Numero de cuenta contractual o IBAN |
+| `identification` | [DT-texto-max35-v1](../../../_datatypes/DT-texto-max35-v1.md) | Si | Numero de cuenta contractual o IBAN |
 | `type` | string (enum: CACC, SVGS, COMM, ONLD) | Si | Tipo de cuenta |
-| `currency` | CS-codigo-moneda-v1 | Si | Moneda de la cuenta |
-| `accountNickname` | DT-texto-max35-v1 | Si (nuevo en v2) | Alias personalizado asignado por el cliente |
+| `currency` | [CS-codigo-moneda-v1](../../../_codesets/CS-codigo-moneda-v1.md) | Si | Moneda de la cuenta |
+| `accountNickname` | [DT-texto-max35-v1](../../../_datatypes/DT-texto-max35-v1.md) | Si (nuevo en v2) | Alias personalizado asignado por el cliente |
 
 ## Standard alignment
 
 - **Estrategia**: gap-fit — base 1 a 1 con el estandar; `accountNickname`
   es una **extension** del banco sin equivalente en BIAN/ISO.
+- **Referencia al estandar**: [STD-bian-current-accounts](../../../_canonical-standards/bian/STD-bian-current-accounts.md)
 
 ## Reglas de negocio
 
@@ -57,16 +59,17 @@ movil). Extension del banco sobre el estandar BIAN/ISO base.
 | Tipo de relacion | Componente |
 |---|---|
 | Usado por (MC) | _Pendiente de crear MC v2 si se requiere_ |
-| Referencia (DataType) | DT-texto-max35-v1 |
-| Referencia (CodeSet) | CS-codigo-moneda-v1 |
-| Referencia (StandardReference) | STD-bian-current-accounts |
+| Referencia (DataType) | [DT-texto-max35-v1](../../../_datatypes/DT-texto-max35-v1.md) |
+| Referencia (CodeSet) | [CS-codigo-moneda-v1](../../../_codesets/CS-codigo-moneda-v1.md) |
+| Referencia (StandardReference) | [STD-bian-current-accounts](../../../_canonical-standards/bian/STD-bian-current-accounts.md) |
+| Evoluciona desde | [BC-MEDIOSPAGO-cuenta-identificacion-v1](./BC-MEDIOSPAGO-cuenta-identificacion-v1.md) |
 
 ## Branch lineage (Evolution)
 
 | Version | Tipo de rama | Heredado de | Owner |
 |---|---|---|---|
 | v1 | trunk | — | TEAM-HERMES |
-| v2 | evolution | BC-MEDIOSPAGO-cuenta-identificacion-v1 | TEAM-HERMES |
+| v2 | evolution | [BC-MEDIOSPAGO-cuenta-identificacion-v1](./BC-MEDIOSPAGO-cuenta-identificacion-v1.md) | TEAM-HERMES |
 
 ## Machine-readable summary
 
@@ -82,4 +85,4 @@ ai_keywords: ["cuenta", "identificacion", "account", "open banking", "alias"]
 - [x] El yaml individual existe y coincide en nombre base.
 - [x] `branch_lineage` completo (Evolution desde v1).
 - [x] `owner_team_id_override` correcto.
-- [ ] `catalog.yaml` actualizado.
+- [x] `catalog.yaml` actualizado.

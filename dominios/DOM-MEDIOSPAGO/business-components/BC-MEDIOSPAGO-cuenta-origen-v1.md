@@ -6,23 +6,18 @@ domain_id: "DOM-MEDIOSPAGO"
 status: "draft"
 version: "1.0.0"
 
-# --- Origen / fuente (V2) ---
 source: "custom"
 standard_alignment_strategy: "n/a"
 standard_reference: null
 
-# --- Estrategia de rama MAJOR (V2) ---
 major_branch_strategy: "n/a"
 branch_lineage: []
 
-# --- Gobierno ---
-owner_team_id_override: null   # hereda owner_team_id del dominio DOM-MEDIOSPAGO -> TEAM-HERMES
+owner_team_id_override: null
 
-# --- Modelo de archivos (V2) ---
 individual_oas_file: "BC-MEDIOSPAGO-cuenta-origen-v1.yaml"
 oas_schema_ref: "#/components/schemas/CuentaOrigen"
 
-# --- Descubribilidad para IA (RAG + MCP) ---
 ai_keywords: ["cuenta", "origen", "debito", "medios de pago", "transferencia"]
 aliases: ["Cuenta Debitada", "Cuenta Origen de Fondos"]
 
@@ -38,6 +33,11 @@ Representa la cuenta bancaria desde la cual se debitan los fondos en una
 operacion de Medios de Pago (ej. una transferencia o un pago). Es el
 Business Component base que identifica y valida la cuenta de origen
 antes de ejecutar cualquier movimiento de dinero.
+
+> Nota de relacion con el modelo de cuentas mas reciente: este componente
+> es independiente de [BC-MEDIOSPAGO-cuenta-identificacion-v1](./BC-MEDIOSPAGO-cuenta-identificacion-v1.md),
+> creado antes de formalizar la alineacion con BIAN/ISO 20022. Pendiente
+> de evaluar si conviene consolidarlos en una revision futura.
 
 ## Atributos
 
@@ -63,7 +63,7 @@ No aplica — `source: custom`.
 
 | Tipo de relacion | Componente |
 |---|---|
-| Usado por (MC) | MC-MEDIOSPAGO-transferencia-v1 *(pendiente de crear)* |
+| Usado por (MC) | _MC-MEDIOSPAGO-transferencia-v1 (pendiente de crear)_ |
 
 ## Branch lineage (si es Fork)
 
@@ -83,5 +83,5 @@ ai_keywords: ["cuenta", "origen", "debito", "medios de pago", "transferencia"]
 - [x] El yaml individual (`individual_oas_file`) existe y coincide en nombre base con este `.md`.
 - [x] `source` completo (`custom`, no requiere standard_alignment_strategy).
 - [x] `owner_team_id_override` correcto (`null`, hereda de TEAM-HERMES via DOM-MEDIOSPAGO).
-- [ ] `catalog.yaml` actualizado con esta entrada.
+- [x] `catalog.yaml` actualizado con esta entrada.
 - [ ] No aplica branch_lineage (no es Fork).
