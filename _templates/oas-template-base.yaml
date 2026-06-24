@@ -1,13 +1,13 @@
 # ============================================================
 # oas-template-base.yaml — V2
 # ============================================================
-# TEMPLATE BASE OAS 3.0 — Repositorio Canónico — V2
+# TEMPLATE BASE OAS 3.0 — Repositorio Canonico — V2
 #
 # Este archivo es el ESQUELETO que el pipeline de build usa como
-# base estructural (info, servers, security, responses estándar)
+# base estructural (info, servers, security, responses estandar)
 # al generar el OAS de un dominio nuevo. El contenido de "paths" y
-# "schemas" específico de cada operación NO se escribe a mano aquí
-# — se ENSAMBLA desde:
+# "schemas" especifico de cada operacion NO se escribe a mano aqui
+# -- se ENSAMBLA desde:
 #   - Los yaml individuales de cada BC/MC/DT/CS (individual_oas_file)
 #   - Los fragmentos ensamblados de cada MD (assembled_fragment_file)
 #
@@ -17,28 +17,50 @@
 # swagger-cli bundle --dereference).
 #
 # Uso: copiar este archivo UNA VEZ al crear un dominio nuevo, para
-# fijar info/servers/security/responses estándar. NO editar paths
-# ni schemas aquí directamente — eso se regenera por el build.
+# fijar info/servers/security/responses estandar. NO editar paths
+# ni schemas aqui directamente -- eso se regenera por el build.
 #
 # Reemplazar todos los valores {{...}} antes de publicar.
 #
-# Convención de oro: cada schema definido en el OAS final debe
+# Convencion de oro: cada schema definido en el OAS final debe
 # tener el bloque "x-canonical-metadata" que lo traza a su BC, MC
 # o MD de origen en el repositorio (incluye "source" y, si aplica,
 # "branch_id").
+#
+# ------------------------------------------------------------
+# REGLAS DE LINTING REDOCLY QUE ESTE TEMPLATE RESUELVE POR DISEÑO
+# ------------------------------------------------------------
+# 1. "info-license": el Info Object DEBE contener el campo `license`.
+#    -> Resuelto: bloque license obligatorio mas abajo, con valores
+#       de placeholder a reemplazar ({{...}}), nunca a eliminar.
+#
+# 2. "operation-4xx-response": toda operacion DEBE declarar al menos
+#    una respuesta 4XX.
+#    -> Resuelto: cada operacion nueva DEBE incluir como minimo
+#       '400': $ref: '#/components/responses/BadRequest'
+#       (o el 4XX que corresponda de la lista ya definida abajo:
+#       BadRequest/401/403/404). Ver bloque "EJEMPLO DE OPERACION"
+#       mas abajo como plantilla obligatoria a copiar para cada
+#       endpoint nuevo -- no crear operaciones sin ese bloque.
 
 openapi: 3.0.3
 
 info:
   title: "{{Nombre del dominio}} API"
-  description: "{{Descripción funcional del dominio}}"
+  description: "{{Descripcion funcional del dominio}}"
   version: "{{MAJOR.MINOR.PATCH}}"
   contact:
     name: "{{TEAM-XXX}}"
+  license:
+    # OBLIGATORIO por regla Redocly "info-license". No eliminar este
+    # bloque. Ajustar name/url segun la politica de licenciamiento
+    # interna del banco para APIs no publicas.
+    name: "PoC"
+    url: "https://poc.com/licencia-apis-internas"
 
 servers:
   - url: "{{https://api.banco.com/dominio}}"
-    description: "{{Producción / Sandbox}}"
+    description: "{{Produccion / Sandbox}}"
 
 security:
   - oauth2: []
@@ -46,6 +68,38 @@ security:
 paths: {}
   # Generado por el pipeline de build a partir de los MD del dominio.
   # No editar manualmente.
+  #
+  # ------------------------------------------------------------
+  # EJEMPLO DE OPERACION (plantilla obligatoria a copiar)
+  # ------------------------------------------------------------
+  # /tu-recurso/{id}:
+  #   get:
+  #     summary: "{{Resumen de la operacion}}"
+  #     operationId: "{{operationIdUnico}}"
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       '200':
+  #         description: "{{Operacion exitosa}}"
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "../message-definitions/{{TU-MD}}.fragment.yml"
+  #       '400':
+  #         $ref: "#/components/responses/BadRequest"
+  #       '401':
+  #         $ref: "#/components/responses/Unauthorized"
+  #       '404':
+  #         $ref: "#/components/responses/NotFound"
+  #
+  # Como minimo, toda operacion nueva DEBE incluir '400' (o el 4XX
+  # que aplique) en "responses" -- nunca dejar una operacion solo
+  # con '200'/'201'. Esto satisface la regla Redocly
+  # "operation-4xx-response" automaticamente.
 
 components:
   securitySchemes:
@@ -66,6 +120,9 @@ components:
     #   branch_id: null            # id de rama si es Fork
 
   responses:
+    # Set minimo de respuestas 4XX reutilizables por todas las
+    # operaciones del dominio. Toda operacion nueva debe referenciar
+    # al menos una de estas (ver "EJEMPLO DE OPERACION" arriba).
     BadRequest:
       description: "Solicitud invalida"
     Unauthorized:
