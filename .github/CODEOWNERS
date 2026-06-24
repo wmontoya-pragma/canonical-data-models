@@ -1,10 +1,12 @@
-# Dominio Medios de Pago — Equipo Productor: TEAM-HERMES
-/dominios/DOM-MEDIOSPAGO/  @hermes
-/dominios/DOM-CREDITO-CONSUMO/  @ragnar
+﻿# Dominio Medios de Pago - Equipo Productor: TEAM-HERMES
+/dominios/DOM-MEDIOSPAGO/  @wmontoya-pragma
 
-# Compartidos — gobierno transversal de arquitectura
-/_datatypes/      @equipo-arquitectura
-/_codesets/       @equipo-arquitectura
-/_templates/      @equipo-arquitectura
-/_catalog/        @equipo-arquitectura
-/_teams/          @equipo-arquitectura
+# Dominio Credito de Consumo - Equipo Productor: TEAM-RAGNAR
+/dominios/DOM-CREDITO-CONSUMO/  @wmontoya-pragma
+
+# Compartidos - gobierno transversal de arquitectura
+/_datatypes/      @wmontoya-pragma
+/_codesets/       @wmontoya-pragma
+/_templates/      @wmontoya-pragma
+/_catalog/        @wmontoya-pragma
+/_teams/          @wmontoya-pragma
