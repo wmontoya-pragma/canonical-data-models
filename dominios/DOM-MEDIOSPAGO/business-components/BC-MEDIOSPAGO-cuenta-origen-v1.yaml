@@ -3,41 +3,49 @@
 # ============================================================
 # Yaml individual hermano de BC-MEDIOSPAGO-cuenta-origen-v1.md
 # Mismo nombre base, misma carpeta (convencion "sibling").
-# Este fragmento se ensambla por el pipeline de build dentro del
-# OAS final del dominio DOM-MEDIOSPAGO; no se publica solo.
+#
+# CONVENCION: este archivo contiene el Schema Object PELADO en la
+# raiz (sin envoltorio components/schemas), para que pueda ser
+# referenciado directamente con un $ref externo simple, ej:
+#   $ref: "./BC-MEDIOSPAGO-cuenta-origen-v1.yaml"
+#
+# El pipeline de build/bundling toma este archivo y lo inserta en
+# el OAS final del dominio bajo:
+#   components.schemas.CuentaOrigen
+# (ver oas_schema_ref en el front matter del .md: "#/components/schemas/CuentaOrigen")
+#
+# Este fragmento NO se publica solo; siempre se ensambla/bundlea
+# dentro del OAS final autocontenido (oas/dist/*.bundled.yaml).
 
-components:
-  schemas:
-    CuentaOrigen:
-      type: object
-      description: "Cuenta bancaria desde la cual se debitan los fondos en una operacion de Medios de Pago."
-      required:
-        - numeroCuenta
-        - tipoCuenta
-        - titular
-        - documentoTitular
-      properties:
-        numeroCuenta:
-          type: string
-          description: "Numero de cuenta bancaria origen, sin guiones ni espacios."
-          example: "1234567890"
-        tipoCuenta:
-          type: string
-          description: "Tipo de cuenta. Ver CS-MEDIOSPAGO-tipo-cuenta."
-          enum: ["AHORROS", "CORRIENTE"]
-        titular:
-          type: string
-          description: "Nombre completo del titular de la cuenta origen."
-          example: "Juan Perez Gomez"
-        documentoTitular:
-          type: string
-          description: "Numero de documento de identidad del titular."
-          example: "1020304050"
-        entidadFinanciera:
-          type: string
-          description: "Codigo de la entidad financiera, si la cuenta es interbancaria."
-          example: "0001"
-      x-canonical-metadata:
-        component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
-        source: "custom"
-        branch_id: null
+type: object
+description: "Cuenta bancaria desde la cual se debitan los fondos en una operacion de Medios de Pago."
+required:
+  - numeroCuenta
+  - tipoCuenta
+  - titular
+  - documentoTitular
+properties:
+  numeroCuenta:
+    type: string
+    description: "Numero de cuenta bancaria origen, sin guiones ni espacios."
+    example: "1234567890"
+  tipoCuenta:
+    type: string
+    description: "Tipo de cuenta. Ver CS-MEDIOSPAGO-tipo-cuenta."
+    enum: ["AHORROS", "CORRIENTE"]
+  titular:
+    type: string
+    description: "Nombre completo del titular de la cuenta origen."
+    example: "Juan Perez Gomez"
+  documentoTitular:
+    type: string
+    description: "Numero de documento de identidad del titular."
+    example: "1020304050"
+  entidadFinanciera:
+    type: string
+    description: "Codigo de la entidad financiera, si la cuenta es interbancaria."
+    example: "0001"
+x-canonical-metadata:
+  component_id: "BC-MEDIOSPAGO-cuenta-origen-v1"
+  source: "custom"
+  branch_id: null
