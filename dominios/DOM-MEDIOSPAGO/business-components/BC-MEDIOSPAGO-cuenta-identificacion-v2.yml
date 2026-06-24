@@ -1,0 +1,22 @@
+type: object
+description: "[VERSION 2.0.0] Identificacion de cuenta extendida para Open Banking / APIs reguladas."
+required:
+  - identification
+  - type
+  - currency
+  - accountNickname
+properties:
+  identification:
+    $ref: "../../../_datatypes/DT-texto-max35-v1.yml"
+  type:
+    type: string
+    enum: [CACC, SVGS, COMM, ONLD]
+  currency:
+    $ref: "../../../_codesets/CS-codigo-moneda-v1.yml"
+  accountNickname:
+    $ref: "../../../_datatypes/DT-texto-max35-v1.yml"
+    description: "Alias personalizado asignado por el cliente desde la App movil."
+x-canonical-metadata:
+  component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v2"
+  source: "bian"
+  branch_id: null

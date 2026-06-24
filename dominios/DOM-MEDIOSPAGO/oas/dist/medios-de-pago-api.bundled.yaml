@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: Medios de Pago API
+  description: 'OAS de validacion: consulta de cuenta (identificacion + saldos)'
+  version: 1.0.0
+  contact:
+    name: TEAM-HERMES
+servers:
+  - url: https://api.banco.com/mediospago
+security:
+  - oauth2: []
+paths:
+  /accounts/{id}:
+    get:
+      summary: Consultar cuenta
+      operationId: consultarCuenta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Consulta exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    $ref: '#/components/schemas/BC-MEDIOSPAGO-cuenta-identificacion-v1'
+                  balances:
+                    $ref: '#/components/schemas/MC-MEDIOSPAGO-saldos-cuenta-v1'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://auth.banco.com/token
+          scopes: {}
+  schemas:
+    DT-texto-max35-v1:
+      type: string
+      minLength: 1
+      maxLength: 35
+      pattern: ^[a-zA-Z0-9\s\.,\-\+]*$
+      description: Texto libre de hasta 35 caracteres (ISO 20022 Max35Text).
+      x-canonical-metadata:
+        component_id: DT-texto-max35-v1
+        source: iso20022
+        branch_id: null
+    CS-codigo-moneda-v1:
+      type: string
+      enum:
+        - USD
+        - EUR
+        - COP
+        - MXN
+        - BRL
+        - GBP
+        - JPY
+      pattern: ^[A-Z]{3}$
+      description: Codigo internacional de tres letras de la divisa, basado en ISO 4217.
+      x-canonical-metadata:
+        component_id: CS-codigo-moneda-v1
+        source: iso20022
+        branch_id: null
+    BC-MEDIOSPAGO-cuenta-identificacion-v1:
+      type: object
+      description: '[ISO 20022: FinancialAccount24 / BIAN: Current Accounts] Identificacion canonica de cuentas financieras y depositos.'
+      required:
+        - identification
+        - type
+        - currency
+      properties:
+        identification:
+          $ref: '#/components/schemas/DT-texto-max35-v1'
+          description: Numero de cuenta contractual o codigo IBAN.
+        type:
+          type: string
+          enum:
+            - CACC
+            - SVGS
+            - COMM
+            - ONLD
+          description: 'Tipo de cuenta (CACC: Corriente, SVGS: Ahorros).'
+        currency:
+          $ref: '#/components/schemas/CS-codigo-moneda-v1'
+        status:
+          type: string
+          enum:
+            - ENABLED
+            - DISABLED
+            - PENDING
+            - FROZEN
+          description: Estado operativo actual del contrato de la cuenta en el Core.
+      x-canonical-metadata:
+        component_id: BC-MEDIOSPAGO-cuenta-identificacion-v1
+        source: bian
+        branch_id: null
+    DT-importe-decimal-v1:
+      type: number
+      format: double
+      minimum: 0
+      multipleOf: 0.01
+      description: Numero decimal positivo con maximo dos posiciones decimales (ISO 20022 DecimalNumber, sin moneda embebida).
+      x-canonical-metadata:
+        component_id: DT-importe-decimal-v1
+        source: iso20022
+        branch_id: null
+    DT-fecha-hora-v1:
+      type: string
+      format: date-time
+      pattern: ^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$
+      example: '2026-06-24T18:42:00Z'
+      description: Estampa de tiempo completa con zona horaria o UTC explicita (ISO 20022 ISODateTime).
+      x-canonical-metadata:
+        component_id: DT-fecha-hora-v1
+        source: iso20022
+        branch_id: null
+    MC-MEDIOSPAGO-saldos-cuenta-v1:
+      type: object
+      description: '[ISO 20022: AccountBalanceA01 / BIAN: Depository Positions] Saldos disponible y contable de una cuenta.'
+      required:
+        - closingLedgerBalance
+        - availableBalance
+        - currency
+        - lastUpdateDateTime
+      properties:
+        closingLedgerBalance:
+          $ref: '#/components/schemas/DT-importe-decimal-v1'
+          description: Saldo contable total al cierre del ultimo ciclo operativo.
+        availableBalance:
+          $ref: '#/components/schemas/DT-importe-decimal-v1'
+          description: Saldo real disponible para transaccionar.
+        currency:
+          $ref: '#/components/schemas/CS-codigo-moneda-v1'
+          description: Moneda comun a closingLedgerBalance y availableBalance.
+        lastUpdateDateTime:
+          $ref: '#/components/schemas/DT-fecha-hora-v1'
+          description: Estampa de tiempo de la ultima actualizacion del saldo.
+      x-canonical-metadata:
+        component_id: MC-MEDIOSPAGO-saldos-cuenta-v1
+        source: iso20022
+        branch_id: null

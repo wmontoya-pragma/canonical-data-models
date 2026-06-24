@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: "Medios de Pago API"
+  description: "OAS de validacion: consulta de cuenta (identificacion + saldos)"
+  version: "1.0.0"
+  contact:
+    name: "TEAM-HERMES"
+servers:
+  - url: "https://api.banco.com/mediospago"
+security:
+  - oauth2: []
+paths:
+  /accounts/{id}:
+    get:
+      summary: "Consultar cuenta"
+      operationId: "consultarCuenta"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Consulta exitosa"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    $ref: "../message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.yml"
+                  balances:
+                    $ref: "../message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.yml"
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: "https://auth.banco.com/token"
+          scopes: {}

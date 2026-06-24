@@ -1,0 +1,9 @@
+type: string
+minLength: 1
+maxLength: 35
+pattern: '^[a-zA-Z0-9\s\.,\-\+]*$'
+description: "Texto libre de hasta 35 caracteres (ISO 20022 Max35Text)."
+x-canonical-metadata:
+  component_id: "DT-texto-max35-v1"
+  source: "iso20022"
+  branch_id: null

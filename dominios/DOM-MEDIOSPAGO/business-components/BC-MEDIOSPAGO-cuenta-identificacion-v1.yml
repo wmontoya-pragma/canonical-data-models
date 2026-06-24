@@ -1,0 +1,24 @@
+type: object
+description: "[ISO 20022: FinancialAccount24 / BIAN: Current Accounts] Identificacion canonica de cuentas financieras y depositos."
+required:
+  - identification
+  - type
+  - currency
+properties:
+  identification:
+    $ref: "../../../_datatypes/DT-texto-max35-v1.yml"
+    description: "Numero de cuenta contractual o codigo IBAN."
+  type:
+    type: string
+    enum: [CACC, SVGS, COMM, ONLD]
+    description: "Tipo de cuenta (CACC: Corriente, SVGS: Ahorros)."
+  currency:
+    $ref: "../../../_codesets/CS-codigo-moneda-v1.yml"
+  status:
+    type: string
+    enum: [ENABLED, DISABLED, PENDING, FROZEN]
+    description: "Estado operativo actual del contrato de la cuenta en el Core."
+x-canonical-metadata:
+  component_id: "BC-MEDIOSPAGO-cuenta-identificacion-v1"
+  source: "bian"
+  branch_id: null

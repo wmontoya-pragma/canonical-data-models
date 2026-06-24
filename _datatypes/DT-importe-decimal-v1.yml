@@ -1,0 +1,9 @@
+type: number
+format: double
+minimum: 0.00
+multipleOf: 0.01
+description: "Numero decimal positivo con maximo dos posiciones decimales (ISO 20022 DecimalNumber, sin moneda embebida)."
+x-canonical-metadata:
+  component_id: "DT-importe-decimal-v1"
+  source: "iso20022"
+  branch_id: null
