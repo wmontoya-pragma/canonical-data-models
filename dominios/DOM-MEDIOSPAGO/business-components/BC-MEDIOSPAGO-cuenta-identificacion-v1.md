@@ -36,15 +36,15 @@ alineada 1 a 1 con BIAN (Current Accounts) e ISO 20022 (FinancialAccount24).
 
 | Atributo | Tipo | Obligatorio | Descripcion |
 |---|---|---|---|
-| `identification` | DT-texto-max35-v1 | Si | Numero de cuenta contractual o IBAN |
+| `identification` | [DT-texto-max35-v1](../../../_datatypes/DT-texto-max35-v1.md) | Si | Numero de cuenta contractual o IBAN |
 | `type` | string (enum: CACC, SVGS, COMM, ONLD) | Si | Tipo de cuenta |
-| `currency` | CS-codigo-moneda-v1 | Si | Moneda de la cuenta |
+| `currency` | [CS-codigo-moneda-v1](../../../_codesets/CS-codigo-moneda-v1.md) | Si | Moneda de la cuenta |
 | `status` | string (enum: ENABLED, DISABLED, PENDING, FROZEN) | No | Estado operativo del contrato |
 
 ## Standard alignment
 
 - **Estrategia**: gap-fit — 1 a 1 con el estandar, sin extensiones en esta version.
-- **Referencia al estandar**: STD-bian-current-accounts
+- **Referencia al estandar**: [STD-bian-current-accounts](../../../_canonical-standards/bian/STD-bian-current-accounts.md)
 
 ## Reglas de negocio
 
@@ -55,14 +55,15 @@ alineada 1 a 1 con BIAN (Current Accounts) e ISO 20022 (FinancialAccount24).
 
 | Tipo de relacion | Componente |
 |---|---|
-| Usado por (MC) | MC-MEDIOSPAGO-identificacion-cuenta-v1 |
-| Referencia (DataType) | DT-texto-max35-v1 |
-| Referencia (CodeSet) | CS-codigo-moneda-v1 |
-| Referencia (StandardReference) | STD-bian-current-accounts |
+| Usado por (MC) | [MC-MEDIOSPAGO-identificacion-cuenta-v1](../message-components/MC-MEDIOSPAGO-identificacion-cuenta-v1.md) |
+| Referencia (DataType) | [DT-texto-max35-v1](../../../_datatypes/DT-texto-max35-v1.md) |
+| Referencia (CodeSet) | [CS-codigo-moneda-v1](../../../_codesets/CS-codigo-moneda-v1.md) |
+| Referencia (StandardReference) | [STD-bian-current-accounts](../../../_canonical-standards/bian/STD-bian-current-accounts.md) |
+| Evolucion (version siguiente) | [BC-MEDIOSPAGO-cuenta-identificacion-v2](./BC-MEDIOSPAGO-cuenta-identificacion-v2.md) |
 
 ## Branch lineage (si es Fork)
 
-No aplica — `major_branch_strategy: evolution` (ver v2 como evolucion de este).
+No aplica — `major_branch_strategy: evolution` (ver [v2](./BC-MEDIOSPAGO-cuenta-identificacion-v2.md) como evolucion de este).
 
 ## Machine-readable summary
 
@@ -78,4 +79,4 @@ ai_keywords: ["cuenta", "identificacion", "account", "bian", "iso20022"]
 - [x] El yaml individual existe y coincide en nombre base.
 - [x] `source`/`standard_alignment_strategy`/`standard_reference` completos.
 - [x] `owner_team_id_override` correcto (hereda TEAM-HERMES).
-- [ ] `catalog.yaml` actualizado.
+- [x] `catalog.yaml` actualizado.

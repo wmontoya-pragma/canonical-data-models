@@ -50,7 +50,8 @@ cortos.
 
 | Tipo de relacion | Componente |
 |---|---|
-| Usado por (BC) | BC-MEDIOSPAGO-cuenta-identificacion-v1, BC-MEDIOSPAGO-cuenta-identificacion-v2 |
+| Usado por (BC) | [BC-MEDIOSPAGO-cuenta-identificacion-v1](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md) |
+| Usado por (BC) | [BC-MEDIOSPAGO-cuenta-identificacion-v2](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v2.md) |
 
 ## Machine-readable summary
 

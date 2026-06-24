@@ -35,8 +35,8 @@ tipo y moneda de una cuenta financiera).
 
 | Componente | Estrategia declarada |
 |---|---|
-| BC-MEDIOSPAGO-cuenta-identificacion-v1 | gap-fit |
-| BC-MEDIOSPAGO-cuenta-identificacion-v2 | gap-fit |
+| [BC-MEDIOSPAGO-cuenta-identificacion-v1](../../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md) | gap-fit |
+| [BC-MEDIOSPAGO-cuenta-identificacion-v2](../../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v2.md) | gap-fit |
 
 ## Notas de vendorizacion
 

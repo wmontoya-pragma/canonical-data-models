@@ -53,10 +53,15 @@ repositorio (saldos, montos de transferencia, tasas, etc.).
 
 ## Relaciones
 
+> Corregido: este CodeSet NO es consumido por ningun DataType intermedio
+> (nunca se creo un `DT-monto-moneda-v1`); es consumido directamente por
+> Business Components y, con prioridad, por un Message Component.
+
 | Tipo de relacion | Componente |
 |---|---|
-| Usado por (DataType) | DT-monto-moneda-v1 |
-| Usado por (MC, referencia directa con prioridad) | MC-saldos-cuenta-v1 |
+| Usado por (BC) | [BC-MEDIOSPAGO-cuenta-identificacion-v1](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md) |
+| Usado por (BC) | [BC-MEDIOSPAGO-cuenta-identificacion-v2](../dominios/DOM-MEDIOSPAGO/business-components/BC-MEDIOSPAGO-cuenta-identificacion-v2.md) |
+| Usado por (MC, referencia directa con prioridad) | [MC-MEDIOSPAGO-saldos-cuenta-v1](../dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md) |
 
 ## Branch lineage (si es Fork)
 
@@ -67,7 +72,7 @@ No aplica.
 ```yaml
 id: "CS-codigo-moneda-v1"
 domain_id: "_codesets"
-consumed_by: ["DT-monto-moneda-v1", "MC-saldos-cuenta-v1"]
+consumed_by: ["BC-MEDIOSPAGO-cuenta-identificacion-v1", "BC-MEDIOSPAGO-cuenta-identificacion-v2", "MC-MEDIOSPAGO-saldos-cuenta-v1"]
 ai_keywords: ["moneda", "currency", "divisa", "iso4217"]
 ```
 
@@ -77,4 +82,4 @@ ai_keywords: ["moneda", "currency", "divisa", "iso4217"]
 - [x] Todos los codigos vigentes documentados.
 - [x] `source`/`standard_alignment_strategy` completos.
 - [x] `owner_team_id_override` correcto.
-- [ ] `catalog.yaml` actualizado.
+- [x] `catalog.yaml` actualizado.

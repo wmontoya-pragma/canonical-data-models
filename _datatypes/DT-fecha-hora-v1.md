@@ -48,13 +48,13 @@ Estampa de tiempo completa con zona horaria o UTC explicita, basada en
 
 | Tipo de relacion | Componente |
 |---|---|
-| Usado por (MC) | MC-saldos-cuenta-v1 |
+| Usado por (MC) | [MC-MEDIOSPAGO-saldos-cuenta-v1](../dominios/DOM-MEDIOSPAGO/message-components/MC-MEDIOSPAGO-saldos-cuenta-v1.md) |
 
 ## Machine-readable summary
 
 ```yaml
 id: "DT-fecha-hora-v1"
 domain_id: "_datatypes"
-consumed_by: ["MC-saldos-cuenta-v1"]
+consumed_by: ["MC-MEDIOSPAGO-saldos-cuenta-v1"]
 ai_keywords: ["fecha", "hora", "timestamp", "isodatetime"]
 ```

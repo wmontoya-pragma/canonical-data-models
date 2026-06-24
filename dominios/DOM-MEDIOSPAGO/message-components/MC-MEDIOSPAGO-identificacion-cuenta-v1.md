@@ -33,15 +33,15 @@ updated_date: "2026-06-24"
 
 ## Descripcion funcional
 
-Envuelve `BC-MEDIOSPAGO-cuenta-identificacion-v1` para su exposicion como
-parte de un mensaje de respuesta de consulta de cuenta. Pass-through 1 a 1
-del BC, sin campos adicionales propios del mensaje.
+Envuelve [BC-MEDIOSPAGO-cuenta-identificacion-v1](../business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md)
+para su exposicion como parte de un mensaje de respuesta de consulta de
+cuenta. Pass-through 1 a 1 del BC, sin campos adicionales propios del mensaje.
 
 ## Composed from
 
 | Business Component | Rama consumida | Campos reutilizados |
 |---|---|---|
-| BC-MEDIOSPAGO-cuenta-identificacion-v1 | v1 | todos |
+| [BC-MEDIOSPAGO-cuenta-identificacion-v1](../business-components/BC-MEDIOSPAGO-cuenta-identificacion-v1.md) | v1 | todos |
 
 ## Estructura
 
@@ -60,7 +60,7 @@ No aplica — `source: custom` (composicion propia del mensaje).
 
 | Tipo de relacion | Componente |
 |---|---|
-| Usado por (MD) | MD-MEDIOSPAGO-consultar-cuenta-v1 |
+| Usado por (MD) | [MD-MEDIOSPAGO-consultar-cuenta-v1](../message-definitions/MD-MEDIOSPAGO-consultar-cuenta-v1.md) |
 
 ## Machine-readable summary
 
@@ -77,4 +77,4 @@ ai_keywords: ["cuenta", "identificacion", "mensaje", "consulta"]
 - [x] El yaml individual existe y coincide en nombre base.
 - [x] Tabla "Composed from" completa, con rama EXACTA consumida del BC.
 - [x] `owner_team_id_override` correcto.
-- [ ] `catalog.yaml` actualizado.
+- [x] `catalog.yaml` actualizado.

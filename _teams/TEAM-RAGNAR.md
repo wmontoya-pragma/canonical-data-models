@@ -6,7 +6,7 @@ language: "es"
 status: "Active"
 date: "2026-06-23T00:00:00-05:00"
 contact_email: "wmontoya@pragma.com.co"
-last_review_date: "2026-06-23"
+last_review_date: "2026-06-24"
 ---
 
 ## Document status
@@ -53,7 +53,15 @@ Equipo productor del dominio Credito de Consumo.
 
 | domain_id | Desde | Documento de dominio |
 |---|---|---|
-| DOM-CREDITO-CONSUMO | 2026-06-23 | dominios/DOM-CREDITO-CONSUMO/ |
+| DOM-CREDITO-CONSUMO | 2026-06-23 | [dominios/DOM-CREDITO-CONSUMO/](../dominios/DOM-CREDITO-CONSUMO/) |
+
+## Componentes gobernados (vista rapida)
+
+> Aun sin componentes reales creados en este dominio.
+
+| Componente | Tipo |
+|---|---|
+| — | — |
 
 ## Componentes con ownership especifico (overrides)
 
