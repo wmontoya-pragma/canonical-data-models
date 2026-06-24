@@ -1,0 +1,14 @@
+# ============================================================
+# CS-codigo-moneda-v1.yml
+# ============================================================
+# Yaml individual hermano de CS-codigo-moneda-v1.md
+# Schema Object pelado en la raiz (convencion sibling).
+
+type: string
+enum: [USD, EUR, COP, MXN, BRL, GBP, JPY]
+pattern: '^[A-Z]{3}$'
+description: "Codigo internacional de tres letras de la divisa, basado en ISO 4217."
+x-canonical-metadata:
+  component_id: "CS-codigo-moneda-v1"
+  source: "iso20022"
+  branch_id: null

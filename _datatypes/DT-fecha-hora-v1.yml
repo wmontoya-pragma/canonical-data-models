@@ -1,0 +1,9 @@
+type: string
+format: date-time
+pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$'
+example: "2026-06-24T18:42:00Z"
+description: "Estampa de tiempo completa con zona horaria o UTC explicita (ISO 20022 ISODateTime)."
+x-canonical-metadata:
+  component_id: "DT-fecha-hora-v1"
+  source: "iso20022"
+  branch_id: null

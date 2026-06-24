@@ -1,0 +1,8 @@
+type: string
+enum: [CO, US, ES, MX, BR, GB, JP]
+pattern: '^[A-Z]{2}$'
+description: "Codigo de pais de dos letras (Alpha-2), basado en ISO 3166-1."
+x-canonical-metadata:
+  component_id: "CS-codigo-pais-v1"
+  source: "iso20022"
+  branch_id: null

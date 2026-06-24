@@ -1,0 +1,24 @@
+type: object
+description: "[ISO 20022: AccountBalanceA01 / BIAN: Depository Positions] Saldos disponible y contable de una cuenta."
+required:
+  - closingLedgerBalance
+  - availableBalance
+  - currency
+  - lastUpdateDateTime
+properties:
+  closingLedgerBalance:
+    $ref: "../../../_datatypes/DT-importe-decimal-v1.yml"
+    description: "Saldo contable total al cierre del ultimo ciclo operativo."
+  availableBalance:
+    $ref: "../../../_datatypes/DT-importe-decimal-v1.yml"
+    description: "Saldo real disponible para transaccionar."
+  currency:
+    $ref: "../../../_codesets/CS-codigo-moneda-v1.yml"
+    description: "Moneda comun a closingLedgerBalance y availableBalance."
+  lastUpdateDateTime:
+    $ref: "../../../_datatypes/DT-fecha-hora-v1.yml"
+    description: "Estampa de tiempo de la ultima actualizacion del saldo."
+x-canonical-metadata:
+  component_id: "MC-MEDIOSPAGO-saldos-cuenta-v1"
+  source: "iso20022"
+  branch_id: null
