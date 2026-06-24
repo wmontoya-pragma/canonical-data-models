@@ -3,6 +3,9 @@ info:
   title: Medios de Pago API
   description: 'OAS de validacion: consulta de cuenta (identificacion + saldos)'
   version: 1.0.0
+  license:
+    name: PoC
+    url: https://poc.com/licencia-apis-internas
   contact:
     name: TEAM-HERMES
 servers:
@@ -32,6 +35,10 @@ paths:
                     $ref: '#/components/schemas/BC-MEDIOSPAGO-cuenta-identificacion-v1'
                   balances:
                     $ref: '#/components/schemas/MC-MEDIOSPAGO-saldos-cuenta-v1'
+        '400':
+          description: Solicitud invalida
+        '404':
+          description: Cuenta no encontrada
 components:
   securitySchemes:
     oauth2:
